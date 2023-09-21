@@ -1,4 +1,5 @@
-- name: Build extension
+
+name: Build extension
 
 on:
   push:
@@ -6,7 +7,6 @@ on:
   pull_request:
     branches: [ main ]
 
-  
 jobs:
   build:
     runs-on: windows-latest
@@ -17,22 +17,12 @@ jobs:
         uses: nuget/setup-nuget@v1
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.2
-  - name: Update version
-    run: |
-    (Get-Content -Path JiraVisualStudioExtension.VS2022\source.extension.vsixmanifest) |
-      ForEach-Object {$_ -Replace '1.0.0', '1.0.${{ github.run_number }}'} |
-        Set-Content -Path JiraVisualStudioExtension.VS2022\source.extension.vsixmanifest
-    (Get-Content -Path JiraVisualStudioExtension.VS2022\Properties\AssemblyInfo.cs) |
-      ForEach-Object {$_ -Replace '1.0.0', '1.0.${{ github.run_number }}'} |
-        Set-Content -Path JiraVisualStudioExtension.VS2022\Properties\AssemblyInfo.cs
-    (Get-Content -Path JiraVisualStudioExtension.VS2022\JiraVisualStudioExtension.VS2022Package.cs) |
-      ForEach-Object {$_ -Replace '1.0.0', '1.0.${{ github.run_number }}'} |
-        Set-Content -Path JiraVisualStudioExtension.VS2022\JiraVisualStudioExtension.VS2022Package.cs
- - name: Restore
-  run: nuget restore
-- - name: Build
-  run: msbuild /p:configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal
-  - uses: actions/upload-artifact@v2
-  with:
-  - name: JiraVisualStudioExtension.vsix
-    path: JiraVisualStudioExtension\bin\Release\JiraVisualStudioExtension.vsix
+      
+      - name: Restore
+        run: nuget restore
+      - name: Build
+        run: msbuild /p:configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal
+      - uses: actions/upload-artifact@v2
+        with:
+          name: JiraVisualStudioExtension.vsix
+          path: JiraVisualStudioExtension\bin\Release\JiraVisualStudioExtension.vsix
