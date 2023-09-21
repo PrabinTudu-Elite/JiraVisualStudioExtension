@@ -644,7 +644,7 @@ namespace JiraVisualStudioExtension.ViewModels
 
             var contents = new List<object>();
 
-            var changesetUrl = $"https://vsrssinttools01/DevTools/cs.axd?cs={changesetId}&pcguid={collectionGuid:D}";
+            var changesetUrl = $"http://tfspva1a01/web/cs.aspx?cs={changesetId}&pcguid={collectionGuid:D}";
 
             contents.Add(new
             {
